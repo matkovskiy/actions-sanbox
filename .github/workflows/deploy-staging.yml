@@ -1,16 +1,18 @@
 name: staging-deploy
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
-      - T-0001
+      - develop
 concurrency:
   group: staging_deploy
 env:
-  GIT_BRANCH_REF: "T-0001"
+  GIT_BRANCH_REF: "develop"
 jobs:
   build:
     runs-on: "ubuntu-latest"
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
         with:
