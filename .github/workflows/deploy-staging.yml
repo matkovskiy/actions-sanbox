@@ -1,8 +1,6 @@
 name: staging-deploy
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - T-0001
 concurrency:
