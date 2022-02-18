@@ -1,0 +1,33 @@
+name: staging-deploy
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - T-0001
+concurrency:
+  group: staging_deploy
+env:
+  GIT_BRANCH_REF: "T-0001"
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    if: github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: "${{ env.GIT_BRANCH_REF }}"
+          fetch-depth: 2
+      - name: Login to Github registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: .
+          tags: "ghcr.io/matkovskiy/actions-sanbox/actions-sanbox:sandbox-v${{ github.run_number }}.${{ github.run_attempt }}"
+          file: Dockerfile
