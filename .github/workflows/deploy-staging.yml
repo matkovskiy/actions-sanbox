@@ -4,11 +4,11 @@ on:
     types:
       - closed
     branches:
-      - T-0001
+      - develop
 concurrency:
   group: staging_deploy
 env:
-  GIT_BRANCH_REF: "T-0001"
+  GIT_BRANCH_REF: "develop"
 jobs:
   build:
     runs-on: "ubuntu-latest"

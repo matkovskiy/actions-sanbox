@@ -1,2 +1,2 @@
-FROM alpine:laters
-RUN echo "hello world ! v2 "
+FROM alpine:latest
+RUN echo "hello world ! v3 "
